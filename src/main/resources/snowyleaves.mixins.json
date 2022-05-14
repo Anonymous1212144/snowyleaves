@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "clientmods.snowyleaves.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "LeavesMixin",
+    "RenderMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
