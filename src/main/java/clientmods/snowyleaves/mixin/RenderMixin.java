@@ -19,10 +19,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BlockColors.class)
 public class RenderMixin {
 
-    public long Time;
-    public boolean isSnowing;
+    private long Time;
+    private boolean isSnowing;
 
-    public int updateColour(int colour, float gradient) {
+    private int updateColour(int colour, float gradient) {
         int r = colour >> 16;
         int g = colour >> 8 & 0xFF;
         int b = colour & 0xFF;
@@ -32,7 +32,7 @@ public class RenderMixin {
         return r << 16 | g << 8 | b;
     }
 
-    public float getGradient(ClientWorld world) {
+    private float getGradient(ClientWorld world) {
         float gradient;
         float timeDelta = (float)(world.getTime()-Time);
         if (world.isRaining()) {
@@ -44,19 +44,21 @@ public class RenderMixin {
     }
 
     @Inject(at = @At("RETURN"), method = "getColor", cancellable = true)
-    public void getColour(BlockState state, @Nullable BlockRenderView w, @Nullable BlockPos pos, int tintIndex, CallbackInfoReturnable<Integer> cir) {
-        //Block block = state.getBlock();
-        //if (pos != null && (block instanceof LeavesBlock) && ((SnowyAccessor)block).isSnowy(state)) {
-        //    int colour = cir.getReturnValue();
-        //    ClientWorld world = MinecraftClient.getInstance().world;
-        //    if (world.isRaining() ^ isSnowing) {
-        //        Time = world.getTime();
-        //        isSnowing = world.isRaining();
-        //    }
-       //     float gradient = getGradient(world);
-        //    colour = updateColour(colour, gradient);
-       //     cir.setReturnValue(colour);
-        //}
+    private void getColour(BlockState state, @Nullable BlockRenderView w, @Nullable BlockPos pos, int tintIndex, CallbackInfoReturnable<Integer> cir) {
+        if (pos == null) return;
+        int colour = cir.getReturnValue();
+        Block block = state.getBlock();
+        ClientWorld world = MinecraftClient.getInstance().world;
+        if ((block instanceof LeavesBlock) && ((SnowyAccessor)block).isSnowy(state)) {
+            if (world.isRaining() ^ isSnowing) {
+                Time = world.getTime();
+                isSnowing = world.isRaining();
+            }
+            float gradient = getGradient(world);
+            colour = updateColour(colour, gradient);
+            cir.setReturnValue(colour);
+        }
+
     }
 
 }
