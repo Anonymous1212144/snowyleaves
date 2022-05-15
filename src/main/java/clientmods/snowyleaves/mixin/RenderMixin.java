@@ -49,7 +49,7 @@ public class RenderMixin {
         int colour = cir.getReturnValue();
         Block block = state.getBlock();
         ClientWorld world = MinecraftClient.getInstance().world;
-        if ((block instanceof LeavesBlock) && ((SnowyAccessor)block).isSnowy(state)) {
+        if (world != null && (block instanceof LeavesBlock) && ((SnowyAccessor)block).isSnowy(state)) {
             if (world.isRaining() ^ isSnowing) {
                 Time = world.getTime();
                 isSnowing = world.isRaining();
