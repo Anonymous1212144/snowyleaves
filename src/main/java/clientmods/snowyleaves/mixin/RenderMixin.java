@@ -45,7 +45,6 @@ public class RenderMixin {
 
     @Inject(at = @At("RETURN"), method = "getColor", cancellable = true)
     public void getColour(BlockState state, @Nullable BlockRenderView w, @Nullable BlockPos pos, int tintIndex, CallbackInfoReturnable<Integer> cir) {
-        return;
         //Block block = state.getBlock();
         //if (pos != null && (block instanceof LeavesBlock) && ((SnowyAccessor)block).isSnowy(state)) {
         //    int colour = cir.getReturnValue();
@@ -57,7 +56,7 @@ public class RenderMixin {
        //     float gradient = getGradient(world);
         //    colour = updateColour(colour, gradient);
        //     cir.setReturnValue(colour);
-        }
+        //}
     }
 
 }
