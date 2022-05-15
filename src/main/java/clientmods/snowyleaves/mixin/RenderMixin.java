@@ -56,9 +56,8 @@ public class RenderMixin {
             }
             float gradient = getGradient(world);
             colour = updateColour(colour, gradient);
-            cir.setReturnValue(colour);
         }
-
+        cir.setReturnValue(colour);
     }
 
 
