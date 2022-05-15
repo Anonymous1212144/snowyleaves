@@ -45,18 +45,18 @@ public class RenderMixin {
 
     @Inject(at = @At("RETURN"), method = "getColor", cancellable = true)
     public void getColour(BlockState state, @Nullable BlockRenderView w, @Nullable BlockPos pos, int tintIndex, CallbackInfoReturnable<Integer> cir) {
-        if (pos == null) return;
         Block block = state.getBlock();
-        if (!((block instanceof LeavesBlock) && ((SnowyAccessor)block).isSnowy(state))) return;
-        int colour = cir.getReturnValue();
-        ClientWorld world = MinecraftClient.getInstance().world;
-        if (world.isRaining() ^ isSnowing) {
-            Time = world.getTime();
-            isSnowing = world.isRaining();
+        if (pos != null && (block instanceof LeavesBlock) && ((SnowyAccessor)block).isSnowy(state)) {
+            int colour = cir.getReturnValue();
+            ClientWorld world = MinecraftClient.getInstance().world;
+            if (world.isRaining() ^ isSnowing) {
+                Time = world.getTime();
+                isSnowing = world.isRaining();
+            }
+            float gradient = getGradient(world);
+            colour = updateColour(colour, gradient);
+            cir.setReturnValue(colour);
         }
-        float gradient = getGradient(world);
-        colour = updateColour(colour, gradient);
-        cir.setReturnValue(colour);
     }
 
 }
