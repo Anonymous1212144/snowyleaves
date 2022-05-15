@@ -4,7 +4,6 @@
   "package": "clientmods.snowyleaves.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "LeavesMixin"
   ],
   "injectors": {
     "defaultRequire": 1
