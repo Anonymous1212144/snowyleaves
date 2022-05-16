@@ -33,6 +33,7 @@ public class LeavesMixin extends Block implements SnowyAccessor {
     public boolean isSnowy(World world, BlockPos pos) {return updateSnow(world, pos);}
 
     public boolean updateSnow(World world, BlockPos pos) {
+        if (world.getBiome(pos).value().doesNotSnow(pos)) return false;
         int top = world.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos).getY();
         if (top > pos.getY()) {
             BlockPos p = pos.up();
